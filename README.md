@@ -102,7 +102,7 @@ This should generate a https link in the "Scopes" section that you can copy and 
 Opening this link in your browser will give you the ability to add your new bot to your test server, which you should do now.
 
 12. Voila! Your moderator bot is running. In the Discord server where you added your bot, try typing
-phrases that will be recognized as toxic (i.e. "You stink"). The Bot should react with a 🧨 emoji 
+phrases that will be recognized as toxic (i.e. "You stink"). The Bot should react with a ☣️ emoji 
 for toxic phrases and a 👊 emoji for insults. You can configure these reactions in the `discord.js` file:
 
 ```javascript
