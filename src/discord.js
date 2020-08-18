@@ -173,6 +173,8 @@ mongo_client.connect_mongo_client((err, db_client) => {
       if (message.author.id == robot_creator){
         offence_records.deleteMany( { offending_user: message.author.id } )
         message.channel.send('Suas ofensas foram perdoadas!');
+      }else{
+        message.channel.send('Suas ofensas serão perdoadas em 24h a partir do horário de cada ofensa.');
       }
     }
   });
