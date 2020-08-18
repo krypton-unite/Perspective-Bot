@@ -4,9 +4,9 @@ node_js:
 jobs:
     fast_finish: true
 install:
-    - npm install -g istanbul
-    # - npm install -g codecov
-    - npm i -D nyc
+    # - npm install -g istanbul
+    - npm install -g codecov
+    - npm i -D nyc@15.1.0
 script:
-    - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
-    # - nyc mocha --report lcovonly -- -R spec && codecov
+    # - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
+    - nyc mocha --report lcovonly -- -R spec && codecov
