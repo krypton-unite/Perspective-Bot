@@ -15,9 +15,10 @@
  */
 
 /* Example usage of some features of the Perspective API */
+import dotenv from 'dotenv';
 const googleapis = require('googleapis');
 
-require('dotenv').config();
+dotenv.config();
 
 // Some supported attributes
 // attributes = ["TOXICITY", "SEVERE_TOXICITY", "IDENTITY_ATTACK", "INSULT",
@@ -75,4 +76,4 @@ async function analyzeText(text) {
   return data;
 }
 
-module.exports.analyzeText = analyzeText;
+export default analyzeText;
