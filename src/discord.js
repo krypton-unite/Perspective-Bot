@@ -162,14 +162,14 @@ mongo_client.connect_mongo_client((err, db_client) => {
     }
 
     if (message.content.startsWith('!me perdoe')) {
+      if (robot_creator == null){
+        robot_creator = message.author.id
+        message.channel.send(`Meu criador é você, <@${robot_creator}>!`);
+      }
       const karma = await getKarma(message.author.id);
       if (!karma){
         message.channel.send('Você não precisa pedir perdão.');
         return;
-      }
-      if (robot_creator == null){
-        robot_creator = message.author.id
-        message.channel.send(`Meu criador é você, <@${robot_creator}>!`);
       }
       if (message.author.id == robot_creator){
         offence_records.deleteMany( { offending_user: message.author.id } )
