@@ -162,6 +162,11 @@ mongo_client.connect_mongo_client((err, db_client) => {
     }
 
     if (message.content.startsWith('!me perdoe')) {
+      const karma = await getKarma(message.author.id);
+      if (!karma){
+        message.channel.send('Você não precisa pedir perdão.');
+        return;
+      }
       if (robot_creator == null){
         robot_creator = message.author.id
       }
