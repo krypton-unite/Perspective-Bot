@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - lts/*
+jobs:
+    fast_finish: true
+install:
+    - npm install
+script:
+    - mocha
