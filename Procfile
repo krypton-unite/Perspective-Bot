@@ -1,2 +1,1 @@
-web: npm run start
-http: [port: {:system, "PORT"}]
+worker: npm run start
