@@ -135,6 +135,8 @@ mongo_client.connect_mongo_client((err, db_client) => {
     console.log('Estou pronto!');
   });
 
+
+  let robot_creator = null;
   client.on('message', async (message) => {
     // Ignore messages that aren't from a guild
     // or are from a bot
@@ -159,9 +161,14 @@ mongo_client.connect_mongo_client((err, db_client) => {
       message.channel.send(karma ? explanation + karma : 'Sem carma ainda!');
     }
 
-    if (message.content.startsWith('!reset'+process.env.PRIVATE_COMMANDS_PASSWORD)) {
-      offence_records.deleteMany( { offending_user: message.author.id } )
-      message.channel.send('Suas ofensas foram perdoadas!');
+    if (message.content.startsWith('!me perdoe')) {
+      if (robot_creator == null){
+        robot_creator = message.author.id
+      }
+      if (message.author.id == robot_creator){
+        offence_records.deleteMany( { offending_user: message.author.id } )
+        message.channel.send('Suas ofensas foram perdoadas!');
+      }
     }
   });
 
