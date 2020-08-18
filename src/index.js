@@ -19,6 +19,10 @@ const perspective = require('./perspective.js');
 const mongo_client = require('./mongo_driver');
 require('dotenv').config();
 
+if (process.env.NODE_ENV !== 'production') {
+  console.log('Looks like we are in development mode!');
+}
+
 const emojiMap = {
   'TOXICITY': '☣️',
   'SEVERE_TOXICITY': '☢️',

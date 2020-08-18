@@ -2,7 +2,7 @@
   "name": "perspective_bot",
   "version": "1.0.0",
   "description": "Discord bot that keeps track of user karma based on the language they use",
-  "main": "src/discord.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/krypton-unite/Perspective-Bot.git"
@@ -11,8 +11,12 @@
     "test": "mocha",
     "test-coverage": "nyc mocha --report lcovonly -- -R spec",
     "codecov": "codecov --disable=gcov",
-    "start": "set NODE_ENV=production && node src/discord.js",
-    "build": "webpack --config webpack.prod.js"
+    "prod:start": "node dist/app.bundle.js",
+    "prod:build": "webpack --config webpack.prod.js",
+    "dev:start": "webpack-dev-server --open",
+    "dev:build": "webpack --config webpack.dev.js",
+    "build" : "npm run prod:build",
+    "start" : "npm run prod:start"
   },
   "author": "Daniel Kaminski de Souza",
   "license": "Apache-2.0",
@@ -33,6 +37,7 @@
     "mocha": "^8.1.1",
     "nyc": "^15.1.0",
     "webpack": "^5.0.0-beta.26",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   }
 }

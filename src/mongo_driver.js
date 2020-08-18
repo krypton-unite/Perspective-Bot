@@ -18,7 +18,6 @@ require('dotenv').config();
 
 const connect_mongo_client = async (callback) => {
     // do something
-    console.log(process.env.MONGO_DB_URL);
     return MongoClient.connect(process.env.MONGO_DB_URL, { useNewUrlParser: true, useUnifiedTopology: true }, callback);
 }
 
