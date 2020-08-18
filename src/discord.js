@@ -169,6 +169,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
       }
       if (robot_creator == null){
         robot_creator = message.author.id
+        message.channel.send(`O criador do robô é o <@${userid}>!`);
       }
       if (message.author.id == robot_creator){
         offence_records.deleteMany( { offending_user: message.author.id } )
