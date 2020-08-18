@@ -66,7 +66,7 @@ async function analyzeText(text) {
     resource: req
   });
 
-  data = {};
+  let data = {};
 
   for (const key in res['data']['attributeScores']) {
     data[key] =

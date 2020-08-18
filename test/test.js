@@ -1,12 +1,9 @@
-const perspective = require('../src/perspective.js');
+import analyzeText from '../src/perspective.js';
 var should = require('chai').should();
 
-// beforeEach(async function () {
-// });
-
-describe('#should correctly identify offence', function () {
-    it('\'Você vai para o inferno!\'', async function () {
-        result = await perspective.analyzeText('Você vai para o inferno!');
+describe('#should correctly identify offence', async () => {
+    it('\'Você vai para o inferno!\'', async () => {
+        const result = await analyzeText('Você vai para o inferno!');
         result.INSULT.should.equal(true)
         result.TOXICITY.should.equal(true)
         result.THREAT.should.equal(true)
@@ -14,8 +11,8 @@ describe('#should correctly identify offence', function () {
         result.SEVERE_TOXICITY.should.equal(false)
         result.IDENTITY_ATTACK.should.equal(false)
     });
-    it('\'Seu imbecil!\'', async function () {
-        result = await perspective.analyzeText('Seu imbecil!');
+    it('\'Seu imbecil!\'', async () => {
+        const result = await analyzeText('Seu imbecil!');
         result.INSULT.should.equal(true)
         result.TOXICITY.should.equal(true)
         result.THREAT.should.equal(false)

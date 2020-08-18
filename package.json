@@ -8,15 +8,15 @@
     "url": "https://github.com/krypton-unite/Perspective-Bot.git"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --require esm",
     "test-coverage": "nyc mocha --report lcovonly -- -R spec",
     "codecov": "codecov --disable=gcov",
     "prod:start": "node dist/app.bundle.js",
     "prod:build": "webpack --config webpack.prod.js",
     "dev:start": "webpack-dev-server --open",
     "dev:build": "webpack --config webpack.dev.js",
-    "build" : "npm run prod:build",
-    "start" : "npm run prod:start"
+    "build": "npm run prod:build",
+    "start": "npm run prod:start"
   },
   "author": "Daniel Kaminski de Souza",
   "license": "Apache-2.0",
@@ -34,6 +34,7 @@
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
+    "esm": "^3.2.25",
     "mocha": "^8.1.1",
     "nyc": "^15.1.0",
     "webpack": "^5.0.0-beta.26",
