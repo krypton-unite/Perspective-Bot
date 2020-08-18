@@ -18,7 +18,7 @@ To run this bot yourself, you'll need a [Google Cloud account](https://cloud.goo
 
 Let's get started.
 
-1. Download the [Making with ML repo](https://github.com/dalequark/making_with_ml):
+1. Download the [Perspective-Bot repo](https://github.com/krypton-unite/Perspective-Bot.git):
 
 ```terminal
 git clone git@github.com:dalequark/making_with_ml.git
@@ -62,11 +62,12 @@ You can configure which attributes the API calls for and adjust their thresholds
 ```javascript
 // Set your own thresholds for when to trigger a response
 const attributeThresholds = {
-  'INSULT': 0.75,
   'TOXICITY': 0.75,
-  'SPAM': 0.75,
-  'INCOHERENT': 0.75,
-  'FLIRTATION': 0.75,
+  'SEVERE_TOXICITY': 0.75,
+  'IDENTITY_ATTACK': 0.75,
+  'INSULT': 0.75,
+  'PROFANITY': 0.75,
+  'THREAT': 0.75
 };
 ```
 
@@ -82,7 +83,7 @@ const attributeThresholds = {
 
 11. Now you should be able to run your Discord bot from the command line. In the folder, `makcing_with_ml/discord_moderator`, run:
 
-`node discord.js`
+`node src/discord.js`
 
 It should print `I am ready!` to your terminal.
 

@@ -1,22 +1,22 @@
 {
-  "name": "discord_karma",
+  "name": "perspective_bot",
   "version": "1.0.0",
   "description": "Discord bot that keeps track of user karma based on the language they use",
-  "main": "index.js",
+  "main": "src/discord.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/google/making_with_ml.git"
+    "url": "https://github.com/krypton-unite/Perspective-Bot.git"
   },
   "scripts": {
     "test": "mocha",
-    "report-coverage": "nyc mocha --report lcovonly -- -R spec & codecov",
-    "coverage": "codecov --disable=gcov",
+    "test-coverage": "nyc mocha --report lcovonly -- -R spec",
+    "codecov": "codecov --disable=gcov",
     "start": "set NODE_ENV=production && node src/discord.js"
   },
-  "author": "Dale Markowitz",
+  "author": "Daniel Kaminski de Souza",
   "license": "Apache-2.0",
   "dependencies": {
-    "discord.js": "^12.3.1",
+    "discord.js": "^12.1.1",
     "dotenv": "^8.2.0",
     "googleapis": "^48.0.0",
     "mongodb": "^3.6.0"
@@ -25,6 +25,7 @@
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
-    "mocha": "^8.1.1"
+    "mocha": "^8.1.1",
+    "nyc": "^15.1.0"
   }
 }
