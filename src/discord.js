@@ -161,7 +161,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
 
     if (message.content.startsWith('!reset'+process.env.PRIVATE_COMMANDS_PASSWORD)) {
       offence_records.deleteMany( { offending_user: message.author.id } )
-      message.channel.send('Suas ofensas foram apagadas!');
+      message.channel.send('Suas ofensas foram perdoadas!');
     }
   });
 
