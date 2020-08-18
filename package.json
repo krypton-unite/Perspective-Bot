@@ -11,21 +11,28 @@
     "test": "mocha",
     "test-coverage": "nyc mocha --report lcovonly -- -R spec",
     "codecov": "codecov --disable=gcov",
-    "start": "set NODE_ENV=production && node src/discord.js"
+    "start": "set NODE_ENV=production && node src/discord.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "author": "Daniel Kaminski de Souza",
   "license": "Apache-2.0",
   "dependencies": {
+    "clean-webpack-plugin": "^3.0.0",
     "discord.js": "^12.1.1",
     "dotenv": "^8.2.0",
     "googleapis": "^48.0.0",
-    "mongodb": "^3.6.0"
+    "html-webpack-plugin": "^4.3.0",
+    "mongodb": "^3.6.0",
+    "webpack-merge": "^5.1.2",
+    "webpack-node-externals": "^2.5.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
     "mocha": "^8.1.1",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "webpack": "^5.0.0-beta.26",
+    "webpack-cli": "^3.3.12"
   }
 }
