@@ -9,7 +9,9 @@
   },
   "scripts": {
     "test": "mocha",
-    "start": "set NODE_ENV=production && node src/discord.js"
+    "start": "set NODE_ENV=production && node src/discord.js",
+    "build": "npm i",
+    "heroku-postbuild": "npm build"
   },
   "author": "Dale Markowitz",
   "license": "Apache-2.0",
