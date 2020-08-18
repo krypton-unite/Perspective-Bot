@@ -5,7 +5,5 @@ jobs:
     fast_finish: true
 install:
     - npm install
-    - npm install -g codecov
 script:
-    - nyc mocha --report lcovonly -- -R spec && codecov
-    - codecov
+    - bash <(curl -s https://codecov.io/bash)
