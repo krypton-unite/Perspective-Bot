@@ -5,6 +5,7 @@ jobs:
     fast_finish: true
 install:
     - npm install -g codecov
+    - npm i -D nyc
 script:
     # - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
     - nyc mocha --report lcovonly -- -R spec && codecov
