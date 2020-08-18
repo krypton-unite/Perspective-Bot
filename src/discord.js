@@ -57,6 +57,10 @@ mongo_client.connect_mongo_client((err, db_client) => {
   const offensive_users_db = db_client.db("offensive_users_db");
   let offence_records = offensive_users_db.collection('offence_records');
 
+  let intervalID = setInterval((() => {
+    offence_records.deleteMany( { timestamp: { $lt: + (new Date() - 1) } } )
+  }), 60000); 
+
   const get_user_offence_count = async (userid, offence) => {
       let query = { offending_user: userid }
       registered_offence_records = await offence_records.find(query).toArray();
