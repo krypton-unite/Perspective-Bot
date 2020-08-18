@@ -17,7 +17,6 @@
 const Discord = require('discord.js');
 const perspective = require('./perspective.js');
 const mongo_client = require('./mongo_driver');
-const ObjectID = mongo_client.mongo.ObjectID;
 require('dotenv').config();
 
 const emojiMap = {
@@ -33,8 +32,6 @@ const get_true_scores_only = (scores) => {
   Object.keys(scores).forEach((key) => (scores[key] == false) && delete scores[key]);
   return Object.keys(scores);
 };
-
-users = {}
 
 /**
 * Kick bad members out of the guild
@@ -159,7 +156,6 @@ mongo_client.connect_mongo_client((err, db_client) => {
     }
 
     if (message.content.startsWith('!reset'+process.env.PRIVATE_COMMANDS_PASSWORD)) {
-      message.content = '!reset';
       offence_records.deleteMany( { offending_user: message.author.id } )
       message.channel.send('Suas ofensas foram apagadas!');
     }
