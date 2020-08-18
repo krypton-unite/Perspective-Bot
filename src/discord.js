@@ -16,15 +16,10 @@
 
 const Discord = require('discord.js');
 const perspective = require('./perspective.js');
-
+const mongo_client = require('./mongo_driver');
+const ObjectID = mongo_client.mongo.ObjectID;
 require('dotenv').config();
 
-// Set your emoji "awards" here
-// 'FLIRTATION': '💋',
-// 'TOXICITY': '🧨',
-// 'INSULT': '👊',
-// 'INCOHERENT': '🤪',
-// 'SPAM': '🐟',
 const emojiMap = {
   'TOXICITY': '☣️',
   'SEVERE_TOXICITY': '☢️',
@@ -34,15 +29,18 @@ const emojiMap = {
   'THREAT': '☠️'
 };
 
-// Store some state about user karma.
-// TODO: Migrate to a DB, like Firebase
-const users = {};
+const get_true_scores_only = (scores) => {
+  Object.keys(scores).forEach((key) => (scores[key] == false) && delete scores[key]);
+  return Object.keys(scores);
+};
+
+users = {}
 
 /**
- * Kick bad members out of the guild
- * @param {user} user - user to kick
- * @param {guild} guild - guild to kick user from
- */
+* Kick bad members out of the guild
+* @param {user} user - user to kick
+* @param {guild} guild - guild to kick user from
+*/
 async function kickBaddie(user, guild) {
   const member = guild.member(user);
   if (!member) return;
@@ -53,96 +51,120 @@ async function kickBaddie(user, guild) {
   }
 }
 
-/**
- * Analyzes a user's message for attribues
- * and reacts to it.
- * @param {string} message - message the user sent
- * @return {bool} shouldKick - whether or not we should
- * kick the users
- */
-async function evaluateMessage(message) {
-  let scores;
-  try {
-    scores = await perspective.analyzeText(message.content);
-  } catch (err) {
-    console.log(err);
-    return false;
-  }
+const countOccurrences = (offences, val) => offences.reduce((a, v) => (v === val ? a + 1 : a), 0);
 
-  const userid = message.author.id;
+mongo_client.connect_mongo_client((err, db_client) => {
 
-  for (const attribute in emojiMap) {
-    if (scores[attribute]) {
-      message.react(emojiMap[attribute]);
-      users[userid][attribute] =
-        users[userid][attribute] ?
-          users[userid][attribute] + 1 : 1;
+  if (err) throw err;
+
+  const offensive_users_db = db_client.db("offensive_users_db");
+  let offence_records = offensive_users_db.collection('offence_records');
+
+  const get_user_offence_count = async (userid, offence) => {
+      let query = { offending_user: userid }
+      registered_offence_records = await offence_records.find(query).toArray();
+      if (registered_offence_records == 0)
+        return 0;
+      offences_matrix = registered_offence_records.map(registered_offence_record => registered_offence_record['offences']);
+      offences = offences_matrix.reduce((a, b) => a.concat(b));
+      return countOccurrences(offences, offence)
+  };
+
+  /**
+   * Analyzes a user's message for attribues
+   * and reacts to it.
+   * @param {string} message - message the user sent
+   * @return {bool} shouldKick - whether or not we should
+   * kick the users
+   */
+  async function evaluateMessage(message) {
+    let scores;
+    try {
+      scores = await perspective.analyzeText(message.content);
+    } catch (err) {
+      console.log(err);
+      return false;
     }
-  }
-  // Return whether or not we should kick the user
-  return (users[userid]['TOXICITY'] > process.env.KICK_THRESHOLD);
-}
+    const userid = message.author.id;
 
-/**
- * Writes current user scores to the channel
- * @return {string} karma - printable karma scores
- */
-function getKarma() {
-  const scores = [];
-  for (const user in users) {
-    if (!Object.keys(users[user]).length) continue;
-    let score = `<@${user}> - `;
-    for (const attr in users[user]) {
-      score += `${emojiMap[attr]} : ${users[user][attr]}\t`;
+
+    detected_offences = get_true_scores_only(scores);
+    if (detected_offences.length){
+      offence_records.insertOne({ timestamp: + new Date(), offending_user: userid, offences: detected_offences})
+      detected_offences.map((detected_offence) => (message.react(emojiMap[detected_offence])));
+      return (await get_user_offence_count(userid, 'TOXICITY') > process.env.KICK_THRESHOLD);
     }
-    scores.push(score);
-  }
-  console.log(scores);
-  if (!scores.length) {
-    return '';
-  }
-  return scores.join('\n');
-}
-
-// Create an instance of a Discord client
-const client = new Discord.Client();
-
-client.on('ready', () => {
-  console.log('Estou pronto!');
-});
-
-client.on('message', async (message) => {
-  // Ignore messages that aren't from a guild
-  // or are from a bot
-  if (!message.guild || message.author.bot) return;
-
-  // If we've never seen a user before, add them to memory
-  const userid = message.author.id;
-  if (!users[userid]) {
-    users[userid] = [];
+    return false
+    // Return whether or not we should kick the user
   }
 
-  // Evaluate attributes of user's message
-  let shouldKick = false;
-  try {
-    shouldKick = await evaluateMessage(message);
-  } catch (err) {
-    console.log(err);
-  }
-  if (shouldKick) {
-    kickBaddie(message.author, message.guild);
-    delete users[message.author.id];
-    message.channel.send(`Chutei o usuário ${message.author.username} do canal`);
-    return;
+  /**
+   * Writes current user scores to the channel
+   * @return {string} karma - printable karma scores
+   */
+  async function getKarma(userid) {
+    const get_user_karma = async (userid) => {
+      user_karma= {}
+      promises = Object.keys(emojiMap).map(async key => {
+        count = await get_user_offence_count(userid, key);
+        if (count > 0){
+          Object.assign(
+            user_karma,
+            {[key]: count}
+          );
+        }
+      });
+      await Promise.all(promises);
+      return user_karma;
+    }
+    user_karma = await get_user_karma(userid);
+    let reactions = ''
+    Object.entries(user_karma).map(entry => reactions += `${emojiMap[entry[0]]} : ${entry[1]}\t`)
+    console.log(reactions);
+    if (!reactions.length) {
+      return '';
+    }
+    return `<@${userid}> - ` + reactions;
   }
 
+  // Create an instance of a Discord client
+  const client = new Discord.Client();
 
-  if (message.content.startsWith('!carma')) {
-    const karma = getKarma(message);
-    explanation = "Legenda:\n\n- ☣️: toxidade\n- ☢️: toxidade severa\n- 🤺: ataque à identidade\n- 👊: insulto\n- 🤬: afronta\n- ☠️: ameaça\n\nSuas ofensas:\n";
-    message.channel.send(karma ? explanation + karma : 'Sem carma ainda!');
-  }
-});
+  client.on('ready', () => {
+    console.log('Estou pronto!');
+  });
 
-// Log our bot in using the token from https://discordapp.com/developers/applications/me
-client.login(process.env.DISCORD_TOKEN);
+  client.on('message', async (message) => {
+    // Ignore messages that aren't from a guild
+    // or are from a bot
+    if (!message.guild || message.author.bot) return;
+
+    // Evaluate attributes of user's message
+    let shouldKick = false;
+    try {
+      shouldKick = await evaluateMessage(message);
+    } catch (err) {
+      console.log(err);
+    }
+    if (shouldKick) {
+      kickBaddie(message.author, message.guild);
+      message.channel.send(`Chutei o usuário ${message.author.username} do canal`);
+      return;
+    }
+
+    if (message.content.startsWith('!carma')) {
+      const karma = await getKarma(message.author.id);
+      explanation = "Legenda:\n\n- ☣️: toxidade\n- ☢️: toxidade severa\n- 🤺: ataque à identidade\n- 👊: insulto\n- 🤬: afronta\n- ☠️: ameaça\n\nSuas ofensas:\n";
+      message.channel.send(karma ? explanation + karma : 'Sem carma ainda!');
+    }
+
+    if (message.content.startsWith('!reset'+process.env.PRIVATE_COMMANDS_PASSWORD)) {
+      message.content = '!reset';
+      offence_records.deleteMany( { offending_user: message.author.id } )
+      message.channel.send('Suas ofensas foram apagadas!');
+    }
+  });
+
+  // Log our bot in using the token from https://discordapp.com/developers/applications/me
+  client.login(process.env.DISCORD_TOKEN);
+})
