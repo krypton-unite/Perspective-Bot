@@ -1,9 +1,11 @@
 language: node_js
 node_js:
-  - lts/*
+    - lts/*
 jobs:
     fast_finish: true
 install:
     - npm install
 script:
     - mocha
+post-script:
+    - bash <(curl -s https://codecov.io/bash)
