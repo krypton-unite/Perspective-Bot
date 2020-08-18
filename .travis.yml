@@ -9,4 +9,5 @@ install:
     - npm i -D nyc@15.1.0
 script:
     # - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
-    - nyc mocha --report lcovonly -- -R spec && codecov --disable=gcov
+    - npm run report-coverage
+after_success: npm run test && npm run coverage
