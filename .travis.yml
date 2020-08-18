@@ -4,6 +4,8 @@ node_js:
 jobs:
     fast_finish: true
 install:
-    - npm install
+    - npm install -g codecov
 script:
-    - bash <(curl -s https://codecov.io/bash)
+    # - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
+    - nyc mocha --report lcovonly -- -R spec && codecov
+    - codecov
