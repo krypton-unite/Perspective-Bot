@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "mocha --require esm",
-    "test-coverage": "nyc npm run test --report lcovonly -- -R spec",
+    "test-coverage": "nyc mocha --require esm --report lcovonly -- -R spec",
     "codecov": "codecov --disable=gcov",
     "prod:start": "node dist/app.bundle.js",
     "prod:build": "webpack --config webpack.prod.js",
