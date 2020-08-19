@@ -129,9 +129,6 @@ mongo_client.connect_mongo_client((err, db_client) => {
     let reactions = ''
     Object.entries(user_karma).map(entry => reactions += `${emojiMap[entry[0]]} : ${entry[1]}\t`)
     console.log(reactions);
-    if (!reactions.length) {
-      return '';
-    }
     return reactions;
   }
 
