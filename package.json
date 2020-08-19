@@ -16,8 +16,7 @@
     "dev:start": "webpack-dev-server --open",
     "dev:build": "webpack --config webpack.dev.js",
     "build": "npm run prod:build",
-    "start": "npm run prod:start",
-    "ap": "nyc run test"
+    "start": "npm run prod:start"
   },
   "author": "Daniel Kaminski de Souza",
   "license": "Apache-2.0",
