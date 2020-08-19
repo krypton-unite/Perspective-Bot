@@ -110,7 +110,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
    */
   async function getKarma(userid) {
     const get_user_karma = async (userid) => {
-      user_karma= {}
+      let user_karma= {}
       promises = Object.keys(emojiMap).map(async key => {
         count = await get_user_offence_count(userid, key);
         if (count > 0){
