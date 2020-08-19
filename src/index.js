@@ -164,8 +164,8 @@ mongo_client.connect_mongo_client((err, db_client) => {
 
     if (message.content.startsWith('!carma')) {
       const karma = await getKarma(message.author.id);
-      const explanation = "Legenda:\n\n- ☣️: toxidade\n- ☢️: toxidade severa\n- 🤺: ataque à identidade\n- 👊: insulto\n- 🤬: afronta\n- ☠️: ameaça";
-      message.channel.send(karma ? `Suas ofensas, <@${message.author.id}>\n` + karma + '\n\n' + explanation : 'Sem carma ainda!');
+      const explanation = "Legenda:\n- ☣️: toxidade\n- ☢️: toxidade severa\n- 🤺: ataque à identidade\n- 👊: insulto\n- 🤬: afronta\n- ☠️: ameaça";
+      message.channel.send(karma ? `Suas ofensas, <@${message.author.id}>:\n\n` + karma + '\n\n' + explanation : 'Sem carma ainda!');
     }
 
     if (message.content.startsWith('!me perdoe')) {
