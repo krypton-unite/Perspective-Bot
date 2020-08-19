@@ -17,7 +17,7 @@
 import mongo_client from './mongo_driver';
 import perspective from './perspective.js';
 import dotenv from 'dotenv';
-const Discord = require('discord.js');
+import Discord from 'discord.js';
 dotenv.config();
 
 if (process.env.NODE_ENV !== 'production') {
