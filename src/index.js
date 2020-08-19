@@ -94,7 +94,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
     const userid = message.author.id;
 
 
-    detected_offences = get_true_scores_only(scores);
+    const detected_offences = get_true_scores_only(scores);
     if (detected_offences.length){
       offence_records.insertOne({ timestamp: + new Date(), offending_user: userid, offences: detected_offences})
       detected_offences.map((detected_offence) => (message.react(emojiMap[detected_offence])));
