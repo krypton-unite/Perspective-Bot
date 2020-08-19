@@ -110,7 +110,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
    * Writes current user scores to the channel
    * @return {string} karma - printable karma scores
    */
-  async function getKarma(userid) {
+  const getKarma = async (userid) => {
     const get_user_karma = async (userid) => {
       let user_karma= {}
       let promises = Object.keys(emojiMap).map(async key => {
@@ -132,7 +132,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
     if (!reactions.length) {
       return '';
     }
-    return `<@${userid}> - ` + reactions;
+    return reactions;
   }
 
   // Create an instance of a Discord client
@@ -164,8 +164,8 @@ mongo_client.connect_mongo_client((err, db_client) => {
 
     if (message.content.startsWith('!carma')) {
       const karma = await getKarma(message.author.id);
-      const explanation = "Legenda:\n\n- ☣️: toxidade\n- ☢️: toxidade severa\n- 🤺: ataque à identidade\n- 👊: insulto\n- 🤬: afronta\n- ☠️: ameaça\n\nSuas ofensas:\n";
-      message.channel.send(karma ? explanation + karma : 'Sem carma ainda!');
+      const explanation = "Legenda:\n\n- ☣️: toxidade\n- ☢️: toxidade severa\n- 🤺: ataque à identidade\n- 👊: insulto\n- 🤬: afronta\n- ☠️: ameaça";
+      message.channel.send(karma ? `Suas ofensas, <@${message.author.id}>\n` + karma + '\n\n' + explanation : 'Sem carma ainda!');
     }
 
     if (message.content.startsWith('!me perdoe')) {
