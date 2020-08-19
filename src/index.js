@@ -63,7 +63,9 @@ mongo_client.connect_mongo_client((err, db_client) => {
   let offence_records = offensive_users_db.collection('offence_records');
 
   let intervalID = setInterval((() => {
-    offence_records.deleteMany( { timestamp: { $lt: + (new Date() - 1) } } )
+    let date = new Date();
+    const twentyFourHoursAgo = date.setDate(date.getDate() - 1);
+    offence_records.deleteMany( { timestamp: { $lt: + twentyFourHoursAgo } } );
   }), 60000); 
 
   const get_user_offence_count = async (userid, offence) => {
