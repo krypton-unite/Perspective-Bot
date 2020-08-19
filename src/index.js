@@ -68,7 +68,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
 
   const get_user_offence_count = async (userid, offence) => {
       let query = { offending_user: userid }
-      registered_offence_records = await offence_records.find(query).toArray();
+      const registered_offence_records = await offence_records.find(query).toArray();
       if (registered_offence_records == 0)
         return 0;
       offences_matrix = registered_offence_records.map(registered_offence_record => registered_offence_record['offences']);
