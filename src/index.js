@@ -112,7 +112,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
     const get_user_karma = async (userid) => {
       let user_karma= {}
       let promises = Object.keys(emojiMap).map(async key => {
-        count = await get_user_offence_count(userid, key);
+        const count = await get_user_offence_count(userid, key);
         if (count > 0){
           Object.assign(
             user_karma,
@@ -123,7 +123,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
       await Promise.all(promises);
       return user_karma;
     }
-    user_karma = await get_user_karma(userid);
+    const user_karma = await get_user_karma(userid);
     let reactions = ''
     Object.entries(user_karma).map(entry => reactions += `${emojiMap[entry[0]]} : ${entry[1]}\t`)
     console.log(reactions);
@@ -162,7 +162,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
 
     if (message.content.startsWith('!carma')) {
       const karma = await getKarma(message.author.id);
-      explanation = "Legenda:\n\n- ☣️: toxidade\n- ☢️: toxidade severa\n- 🤺: ataque à identidade\n- 👊: insulto\n- 🤬: afronta\n- ☠️: ameaça\n\nSuas ofensas:\n";
+      const explanation = "Legenda:\n\n- ☣️: toxidade\n- ☢️: toxidade severa\n- 🤺: ataque à identidade\n- 👊: insulto\n- 🤬: afronta\n- ☠️: ameaça\n\nSuas ofensas:\n";
       message.channel.send(karma ? explanation + karma : 'Sem carma ainda!');
     }
 

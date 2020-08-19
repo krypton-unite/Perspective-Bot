@@ -17,7 +17,8 @@
     "dev:build": "webpack --config webpack.dev.js",
     "build": "npm run prod:build",
     "start": "npm run prod:start",
-    "heroku:logs": "heroku logs --tail"
+    "heroku:logs": "heroku logs --tail",
+    "heroku:deploy": "git push heroku master"
   },
   "author": "Daniel Kaminski de Souza",
   "license": "Apache-2.0",
