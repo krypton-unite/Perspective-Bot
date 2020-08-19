@@ -9,14 +9,15 @@
   },
   "scripts": {
     "test": "mocha --require esm",
-    "test-coverage": "nyc mocha --report lcovonly -- -R spec",
+    "test-coverage": "nyc npm run test --report lcovonly -- -R spec",
     "codecov": "codecov --disable=gcov",
     "prod:start": "node dist/app.bundle.js",
     "prod:build": "webpack --config webpack.prod.js",
     "dev:start": "webpack-dev-server --open",
     "dev:build": "webpack --config webpack.dev.js",
     "build": "npm run prod:build",
-    "start": "npm run prod:start"
+    "start": "npm run prod:start",
+    "ap": "nyc run test"
   },
   "author": "Daniel Kaminski de Souza",
   "license": "Apache-2.0",
