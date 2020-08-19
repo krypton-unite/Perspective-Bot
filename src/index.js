@@ -15,7 +15,7 @@
  */
 
 import mongo_client from './mongo_driver';
-import perspective from './perspective.js';
+import analyzeText from './perspective.js';
 import dotenv from 'dotenv';
 import Discord from 'discord.js';
 dotenv.config();
@@ -86,7 +86,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
   async function evaluateMessage(message) {
     let scores;
     try {
-      scores = await perspective.analyzeText(message.content);
+      scores = await analyzeText(message.content);
     } catch (err) {
       console.log(err);
       return false;
