@@ -158,7 +158,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
     }
     if (shouldKick) {
       kickBaddie(message.author, message.guild);
-      message.channel.send(`Chutei o usuário ${message.author.username} do canal`);
+      message.channel.send(`Chutei o usuário <@${message.author.id}> do canal`);
       return;
     }
 
