@@ -16,7 +16,7 @@
 
 /* Example usage of some features of the Perspective API */
 import dotenv from 'dotenv';
-const google = require('googleapis');
+import * as google from 'googleapis';
 
 dotenv.config();
 
