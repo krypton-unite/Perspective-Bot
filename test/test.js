@@ -1,5 +1,6 @@
 import analyzeText from '../src/perspective.js';
-var should = require('chai').should();
+import chai from 'chai';
+const should = chai.should();
 
 describe('#should correctly identify offence', async () => {
     it('\'Você vai para o inferno!\'', async () => {
