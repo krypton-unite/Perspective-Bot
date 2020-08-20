@@ -21,4 +21,22 @@ describe('#should correctly identify offence', async () => {
         result.SEVERE_TOXICITY.should.equal(true)
         result.IDENTITY_ATTACK.should.equal(false)
     });
+    it('\'You will go to hell!\'', async () => {
+        const result = await analyzeText('You will go to hell!');
+        result.INSULT.should.equal(true)
+        result.TOXICITY.should.equal(true)
+        result.THREAT.should.equal(true)
+        result.PROFANITY.should.equal(true)
+        result.SEVERE_TOXICITY.should.equal(true)
+        result.IDENTITY_ATTACK.should.equal(false)
+    });
+    it('\'You dumb!\'', async () => {
+        const result = await analyzeText('You dumb!');
+        result.INSULT.should.equal(true)
+        result.TOXICITY.should.equal(true)
+        result.THREAT.should.equal(false)
+        result.PROFANITY.should.equal(true)
+        result.SEVERE_TOXICITY.should.equal(true)
+        result.IDENTITY_ATTACK.should.equal(false)
+    });
 });
