@@ -55,12 +55,13 @@ async function kickBaddie(user, guild) {
 
 const countOccurrences = (offences, val) => offences.reduce((a, v) => (v === val ? a + 1 : a), 0);
 
-mongo_client.connect_mongo_client((err, db_client) => {
+mongo_client.connect_mongo_client(async (err, db_client) => {
 
   if (err) throw err;
 
-  const offensive_users_db = db_client.db("offensive_users_db");
-  let offence_records = offensive_users_db.collection('offence_records');
+  const perspective_bot_db = db_client.db("perspective_bot_db");
+  let offence_records = perspective_bot_db.collection('offence_records');
+  let robot_memory = perspective_bot_db.collection('robot_memory');
 
   let intervalID = setInterval((() => {
     let date = new Date();
@@ -98,7 +99,7 @@ mongo_client.connect_mongo_client((err, db_client) => {
 
     const detected_offences = get_true_scores_only(scores);
     if (detected_offences.length){
-      offence_records.insertOne({ timestamp: + new Date(), offending_user: userid, offences: detected_offences})
+      await offence_records.insertOne({ timestamp: + new Date(), offending_user: userid, offences: detected_offences});
       detected_offences.map((detected_offence) => (message.react(emojiMap[detected_offence])));
       return (await get_user_offence_count(userid, 'TOXICITY') > process.env.KICK_THRESHOLD);
     }
@@ -139,8 +140,12 @@ mongo_client.connect_mongo_client((err, db_client) => {
     console.log('Estou pronto!');
   });
 
-
-  let robot_creator = null;
+  // robot_memory.insertOne({ _id: 'my_creator', creator: 'the_creator'});
+  let robot_creator_record = await robot_memory.findOne({ _id: 'my_creator' });
+  let robot_creator;
+  if (robot_creator_record != null){
+    robot_creator = robot_creator_record['creator_id'];
+  }
   client.on('message', async (message) => {
     // Ignore messages that aren't from a guild
     // or are from a bot
@@ -165,20 +170,45 @@ mongo_client.connect_mongo_client((err, db_client) => {
       message.channel.send(karma ? `Suas ofensas, <@${message.author.id}>:\n\n` + karma + '\n\n' + explanation : 'Sem carma ainda!');
     }
 
-    if (message.content.startsWith('!me perdoe')) {
+    if (message.content.startsWith('!adote-me como seu criador')) {
       if (robot_creator == null){
         robot_creator = message.author.id
-        message.channel.send(`Meu criador é você, <@${robot_creator}>!`);
-      }
-      const karma = await getKarma(message.author.id);
-      if (!karma){
-        message.channel.send('Você não precisa pedir perdão.');
-        return;
-      }
-      if (message.author.id == robot_creator){
-        offence_records.deleteMany( { offending_user: message.author.id } )
-        message.channel.send('Suas ofensas foram perdoadas!');
+        await robot_memory.insertOne({ _id: 'my_creator', creator_id: robot_creator })
+        message.channel.send(`Acabo de te adotar como meu criador, <@${robot_creator}>!`);
       }else{
+        if (robot_creator == message.author.id){
+          message.channel.send(`Você já foi adotado como meu criador, <@${robot_creator}>!`);
+        }else{
+          message.channel.send(`Meu criador é o <@${robot_creator}>!`);
+        }
+      }
+    }
+
+    const forgive_command = '!perdoe-me';
+    if (message.author.id == robot_creator){
+      if (message.content.startsWith(forgive_command)) {
+        const karma = await getKarma(message.author.id);
+        if (!karma){
+          message.channel.send('Você não precisa pedir perdão.');
+          return;
+        }
+        await offence_records.deleteMany( { offending_user: message.author.id } )
+        // console.log(message.author.id)
+        message.channel.send('Suas ofensas foram perdoadas!');
+      }
+  
+      const preamble = /!perdoe [o|a] <@!/
+      const postamble = />/;
+      const re = new RegExp(preamble.source + /.*/.source + postamble.source);
+      if (re.test(message.content)) {
+        const user_to_forgive = message.content.match(/(?<=!perdoe [o|a] <@!)(.*)(?=>)/)[0]
+        const gender_letter = message.content.match(/(?<=!perdoe )(.*)(?= <@!((.*)(?=>)))/)[0]
+        await offence_records.deleteMany( { offending_user: user_to_forgive } )
+        // console.log(user_to_forgive)
+        message.channel.send(`As ofensas d${gender_letter} <@${user_to_forgive}> foram perdoadas!`);
+      }
+    }else{
+      if (message.content.startsWith(forgive_command)) {
         message.channel.send('Suas ofensas serão perdoadas em 24h a partir do horário de cada ofensa.');
       }
     }

@@ -13,7 +13,7 @@
     "codecov": "codecov --disable=gcov",
     "prod:start": "node dist/app.bundle.js",
     "prod:build": "webpack --config webpack.prod.js",
-    "dev:start": "webpack-dev-server --open",
+    "dev:start": "webpack-dev-server --inline --hot",
     "dev:build": "webpack --config webpack.dev.js",
     "build": "npm run prod:build",
     "start": "npm run prod:start",
@@ -30,17 +30,19 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "clean-webpack-plugin": "^3.0.0",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
     "esm": "^3.2.25",
+    "html-webpack-plugin": "^4.3.0",
     "mocha": "^8.1.1",
     "nyc": "^15.1.0",
     "webpack": "^5.0.0-beta.26",
     "webpack-cli": "^3.3.12",
+    "webpack-dev-middleware": "^3.7.2",
     "webpack-dev-server": "^3.11.0",
+    "webpack-hot-middleware": "^2.25.0",
     "webpack-merge": "^5.1.2",
-    "webpack-node-externals": "^2.5.1",
-    "clean-webpack-plugin": "^3.0.0",
-    "html-webpack-plugin": "^4.3.0"
+    "webpack-node-externals": "^2.5.1"
   }
 }
