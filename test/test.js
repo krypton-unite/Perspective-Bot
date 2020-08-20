@@ -3,7 +3,7 @@ import chai from 'chai';
 const should = chai.should();
 
 describe('Should correctly identify offences\' traits in:', async () => {
-    describe('- Portuguese', async () => {
+    describe('- Portuguese:', async () => {
         it('\'Você vai para o inferno!\'', async () => {
             const result = await analyzeText('Você vai para o inferno!');
             result.INSULT.should.equal(true)
@@ -23,7 +23,7 @@ describe('Should correctly identify offences\' traits in:', async () => {
             result.IDENTITY_ATTACK.should.equal(false)
         });
     });
-    describe('- English', async () => {
+    describe('- English:', async () => {
         it('\'You will go to hell!\'', async () => {
             const result = await analyzeText('You will go to hell!');
             result.INSULT.should.equal(true)
