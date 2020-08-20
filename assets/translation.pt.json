@@ -17,8 +17,6 @@
     "forgiven_creator_offences": "Suas ofensas foram perdoadas!",
     "preamble_frag1": "!perdoe ",
     "preamble_frag2": "[o|a]",
-    "preamble_frag3": " <@!",
-    "postamble": ">",
     "forgiven_offences": "As ofensas d{0} <@{1}> foram perdoadas!",
     "future_forgiveness": "Suas ofensas serão perdoadas em 24h a partir do horário de cada ofensa."
 }

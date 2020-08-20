@@ -142,7 +142,6 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
     console.log(translation.ready);
   });
 
-  // robot_memory.insertOne({ _id: 'my_creator', creator: 'the_creator'});
   let robot_creator_record = await robot_memory.findOne({ _id: 'my_creator' });
   let robot_creator;
   if (robot_creator_record != null){
@@ -195,19 +194,17 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
           return;
         }
         await offence_records.deleteMany( { offending_user: message.author.id } )
-        // console.log(message.author.id)
         message.channel.send(translation.forgiven_creator_offences);
       }
-      const preamble_source = translation.preamble_frag1+translation.preamble_frag2+translation.preamble_frag3;
+      const preamble_frag3 = " <@!";
+      const preamble_source = translation.preamble_frag1+translation.preamble_frag2+preamble_frag3;
       const preamble = new RegExp(preamble_source)
-      const postamble = new RegExp(translation.postamble);
-      const re = new RegExp(preamble.source + /.*/.source + postamble.source);
+      const postamble_source = ">";
+      const re = new RegExp(preamble.source + /.*/.source + postamble_source);
       if (re.test(message.content)) {
-        // !perdoe [o|a] <@!
-        const user_to_forgive = message.content.match(new RegExp("(?<="+preamble_source+")(.*)(?="+translation.postamble+")"))[0]
-        const gender_letter = message.content.match("(?<="+translation.preamble_frag1+")"+translation.preamble_frag2+"(?="+translation.preamble_frag3+"((.*)(?="+translation.postamble+")))")[0]
+        const user_to_forgive = message.content.match(new RegExp("(?<="+preamble_source+")(.*)(?="+postamble_source+")"))[0]
+        const gender_letter = message.content.match("(?<="+translation.preamble_frag1+")"+translation.preamble_frag2+"(?="+preamble_frag3+"((.*)(?="+postamble_source+")))")[0]
         await offence_records.deleteMany( { offending_user: user_to_forgive } )
-        // console.log(user_to_forgive)
         message.channel.send(format(translation.forgiven_offences, gender_letter, user_to_forgive));
       }
     }else{
