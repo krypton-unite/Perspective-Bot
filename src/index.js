@@ -166,7 +166,7 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
       return;
     }
 
-    if (message.content.startsWith('!carma')) {
+    if (message.content.startsWith(translation.karma)) {
       const karma = await getKarma(message.author.id);
       const explanation = translation.explanation;
       message.channel.send(karma ? format(translation.your_offences, message.author.id) + karma + '\n\n' + explanation : translation.no_karma_yet);

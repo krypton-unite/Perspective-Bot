@@ -4,6 +4,7 @@
     "couldnt_kick" : "Não pude chutar o usuário {0}: {1}",
     "ready" : "Estou pronto!",
     "kicked_user" : "Chutei o usuário <@{0}> do canal",
+    "karma": "!carma",
     "explanation" : "Legenda:\n- ☣️: toxidade\n- ☢️: toxidade severa\n- 🤺: ataque à identidade\n- 👊: insulto\n- 🤬: afronta\n- ☠️: ameaça",
     "your_offences" : "Suas ofensas, <@{0}>:\n\n",
     "no_karma_yet" : "Sem carma ainda!",
