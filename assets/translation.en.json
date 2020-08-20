@@ -1,0 +1,23 @@
+{
+    "dev_mode" : "Looks like we are in development mode!",
+    "jurk" : "It was a jurk",
+    "couldnt_kick" : "Couldn't kick the user {0}: {1}",
+    "ready" : "I'm ready!",
+    "kicked_user" : "I kicked the user <@{0}> from the channel",
+    "explanation" : "Legend:\n- ☣️: toxicity\n- ☢️: severe toxicity\n- 🤺: identity attack\n- 👊: insult\n- 🤬: profanation\n- ☠️: threat",
+    "your_offences" : "Your offences, <@{0}>:\n\n",
+    "no_karma_yet" : "No karma yet!",
+    "adopt_me" : "!adopt me as your creator",
+    "just_adopted" : "I just adopted you as my creator, <@{0}>!",
+    "already_adopted" : "You were already adopted as my creator, <@{0}>!",
+    "my_creator_is" : "My creator is <@{0}>!",
+    "forgive_me" : "!forgive me",
+    "no_need_to_forgive": "You don't need to forgive yourself.",
+    "forgiven_creator_offences": "Your offences were forgiven!",
+    "preamble_frag1": "!forgive",
+    "preamble_frag2": "",
+    "preamble_frag3": " <@!",
+    "postamble": ">",
+    "forgiven_offences": "<@{1}> offences were forgiven!",
+    "future_forgiveness": "Your offences will be forgiven 24h after each offence."
+}

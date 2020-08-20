@@ -18,10 +18,12 @@ import mongo_client from './mongo_driver';
 import analyzeText from './perspective.js';
 import dotenv from 'dotenv';
 import Discord from 'discord.js';
+import format from './utils/format.js';
+import {default as translation} from '../assets/translation.pt.json';
 dotenv.config();
 
 if (process.env.NODE_ENV !== 'production') {
-  console.log('Looks like we are in development mode!');
+  console.log(translation.dev_mode);
 }
 
 const emojiMap = {
@@ -47,9 +49,9 @@ async function kickBaddie(user, guild) {
   const member = guild.member(user);
   if (!member) return;
   try {
-    await member.kick('Era um babaca');
+    await member.kick(translation.jurk);
   } catch (err) {
-    console.log(`Não pude chutar o usuário ${user.username}: ${err}`);
+    console.log(format(translation.couldnt_kick, user.username, err));
   }
 }
 
@@ -137,7 +139,7 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
   const client = new Discord.Client();
 
   client.on('ready', () => {
-    console.log('Estou pronto!');
+    console.log(translation.ready);
   });
 
   // robot_memory.insertOne({ _id: 'my_creator', creator: 'the_creator'});
@@ -160,56 +162,57 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
     }
     if (shouldKick) {
       kickBaddie(message.author, message.guild);
-      message.channel.send(`Chutei o usuário <@${message.author.id}> do canal`);
+      message.channel.send(format(translation.kicked_user, message.author.id));
       return;
     }
 
     if (message.content.startsWith('!carma')) {
       const karma = await getKarma(message.author.id);
-      const explanation = "Legenda:\n- ☣️: toxidade\n- ☢️: toxidade severa\n- 🤺: ataque à identidade\n- 👊: insulto\n- 🤬: afronta\n- ☠️: ameaça";
-      message.channel.send(karma ? `Suas ofensas, <@${message.author.id}>:\n\n` + karma + '\n\n' + explanation : 'Sem carma ainda!');
+      const explanation = translation.explanation;
+      message.channel.send(karma ? format(translation.your_offences, message.author.id) + karma + '\n\n' + explanation : translation.no_karma_yet);
     }
 
-    if (message.content.startsWith('!adote-me como seu criador')) {
+    if (message.content.startsWith(translation.adopt_me)) {
       if (robot_creator == null){
         robot_creator = message.author.id
         await robot_memory.insertOne({ _id: 'my_creator', creator_id: robot_creator })
-        message.channel.send(`Acabo de te adotar como meu criador, <@${robot_creator}>!`);
+        message.channel.send(format(translation.just_adopted, robot_creator));
       }else{
         if (robot_creator == message.author.id){
-          message.channel.send(`Você já foi adotado como meu criador, <@${robot_creator}>!`);
+          message.channel.send(format(translation.already_adopted, robot_creator));
         }else{
-          message.channel.send(`Meu criador é o <@${robot_creator}>!`);
+          message.channel.send(format(translation.my_creator_is, robot_creator));
         }
       }
     }
 
-    const forgive_command = '!perdoe-me';
+    const forgive_command = translation.forgive_me;
     if (message.author.id == robot_creator){
       if (message.content.startsWith(forgive_command)) {
         const karma = await getKarma(message.author.id);
         if (!karma){
-          message.channel.send('Você não precisa pedir perdão.');
+          message.channel.send(translation.no_need_to_forgive);
           return;
         }
         await offence_records.deleteMany( { offending_user: message.author.id } )
         // console.log(message.author.id)
-        message.channel.send('Suas ofensas foram perdoadas!');
+        message.channel.send(translation.forgiven_creator_offences);
       }
-  
-      const preamble = /!perdoe [o|a] <@!/
-      const postamble = />/;
+      const preamble_source = translation.preamble_frag1+translation.preamble_frag2+translation.preamble_frag3;
+      const preamble = new RegExp(preamble_source)
+      const postamble = new RegExp(translation.postamble);
       const re = new RegExp(preamble.source + /.*/.source + postamble.source);
       if (re.test(message.content)) {
-        const user_to_forgive = message.content.match(/(?<=!perdoe [o|a] <@!)(.*)(?=>)/)[0]
-        const gender_letter = message.content.match(/(?<=!perdoe )[o|a](?= <@!((.*)(?=>)))/)[0]
+        // !perdoe [o|a] <@!
+        const user_to_forgive = message.content.match(new RegExp("(?<="+preamble_source+")(.*)(?="+translation.postamble+")"))[0]
+        const gender_letter = message.content.match("(?<="+translation.preamble_frag1+")"+translation.preamble_frag2+"(?="+translation.preamble_frag3+"((.*)(?="+translation.postamble+")))")[0]
         await offence_records.deleteMany( { offending_user: user_to_forgive } )
         // console.log(user_to_forgive)
-        message.channel.send(`As ofensas d${gender_letter} <@${user_to_forgive}> foram perdoadas!`);
+        message.channel.send(format(translation.forgiven_offences, gender_letter, user_to_forgive));
       }
     }else{
       if (message.content.startsWith(forgive_command)) {
-        message.channel.send('Suas ofensas serão perdoadas em 24h a partir do horário de cada ofensa.');
+        message.channel.send(translation.future_forgiveness);
       }
     }
   });

@@ -1,0 +1,23 @@
+{
+    "dev_mode" : "Parece que estamos no modo de desenvolvimento!",
+    "jurk" : "Era um babaca",
+    "couldnt_kick" : "Não pude chutar o usuário {0}: {1}",
+    "ready" : "Estou pronto!",
+    "kicked_user" : "Chutei o usuário <@{0}> do canal",
+    "explanation" : "Legenda:\n- ☣️: toxidade\n- ☢️: toxidade severa\n- 🤺: ataque à identidade\n- 👊: insulto\n- 🤬: afronta\n- ☠️: ameaça",
+    "your_offences" : "Suas ofensas, <@{0}>:\n\n",
+    "no_karma_yet" : "Sem carma ainda!",
+    "adopt_me" : "!adote-me como seu criador",
+    "just_adopted" : "Acabo de te adotar como meu criador, <@{0}>!",
+    "already_adopted" : "Você já foi adotado como meu criador, <@{0}>!",
+    "my_creator_is" : "Meu criador é o <@{0}>!",
+    "forgive_me" : "!perdoe-me",
+    "no_need_to_forgive": "Você não precisa pedir perdão.",
+    "forgiven_creator_offences": "Suas ofensas foram perdoadas!",
+    "preamble_frag1": "!perdoe ",
+    "preamble_frag2": "[o|a]",
+    "preamble_frag3": " <@!",
+    "postamble": ">",
+    "forgiven_offences": "As ofensas d{0} <@{1}> foram perdoadas!",
+    "future_forgiveness": "Suas ofensas serão perdoadas em 24h a partir do horário de cada ofensa."
+}
