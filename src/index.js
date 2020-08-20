@@ -202,7 +202,7 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
       const re = new RegExp(preamble.source + /.*/.source + postamble.source);
       if (re.test(message.content)) {
         const user_to_forgive = message.content.match(/(?<=!perdoe [o|a] <@!)(.*)(?=>)/)[0]
-        const gender_letter = message.content.match(/(?<=!perdoe )(.*)(?= <@!((.*)(?=>)))/)[0]
+        const gender_letter = message.content.match(/(?<=!perdoe )[o|a](?= <@!((.*)(?=>)))/)[0]
         await offence_records.deleteMany( { offending_user: user_to_forgive } )
         // console.log(user_to_forgive)
         message.channel.send(`As ofensas d${gender_letter} <@${user_to_forgive}> foram perdoadas!`);
