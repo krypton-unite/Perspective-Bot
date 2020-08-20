@@ -177,11 +177,10 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
         await robot_memory.insertOne({ _id: 'my_creator', creator_id: robot_creator })
         message.channel.send(format(translation.just_adopted, robot_creator));
       }else{
-        if (robot_creator == message.author.id){
-          message.channel.send(format(translation.already_adopted, robot_creator));
-        }else{
-          message.channel.send(format(translation.my_creator_is, robot_creator));
-        }
+        message.channel.send(
+          format((robot_creator == message.author.id)? translation.already_adopted : translation.my_creator_is,
+          robot_creator)
+        );
       }
     }
 
