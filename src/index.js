@@ -19,7 +19,7 @@ import analyzeText from './perspective.js';
 import dotenv from 'dotenv';
 import Discord from 'discord.js';
 import format from './utils/format.js';
-import {default as translation} from '../assets/translation.pt.json';
+import {default as translation} from '../assets/translation.en.json';
 dotenv.config();
 
 if (process.env.NODE_ENV !== 'production') {
