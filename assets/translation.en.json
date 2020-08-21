@@ -4,6 +4,7 @@
     "couldnt_kick" : "Couldn't kick the user {0}: {1}",
     "ready" : "I'm ready!",
     "kicked_user" : "I kicked the user <@{0}> from the channel",
+    "karma": "!karma",
     "explanation" : "Legend:\n- ☣️: toxicity\n- ☢️: severe toxicity\n- 🤺: identity attack\n- 👊: insult\n- 🤬: profanation\n- ☠️: threat",
     "your_offences" : "Your offences, <@{0}>:\n\n",
     "no_karma_yet" : "No karma yet!",
