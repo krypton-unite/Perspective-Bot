@@ -9,18 +9,5 @@ module.exports = merge(common, {
     hot: true,
     inline: true,
     contentBase: './dist',
-  },
-  entry: {
-    // client: 'webpack-hot-middleware/client',
-    // dev_server: './src/dev_server.js'
-    client: 'webpack-dev-server/client?http://localhost:8080',
-    dev_server: 'webpack/hot/dev-server'
-  },
-  plugins: [
-    // OccurrenceOrderPlugin is needed for webpack 1.x only
-    // new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    // Use NoErrorsPlugin for webpack 1.x
-    // new webpack.NoEmitOnErrorsPlugin()
-  ]
+  }
 });
