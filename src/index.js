@@ -149,7 +149,7 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
   }
   client.on('message', async (message) => {
     // Ignore messages that aren't from a guild
-    if (!message.guild) return;
+    // if (!message.guild) return;
 
     // Evaluate attributes of user's message
     let shouldKick = false;
