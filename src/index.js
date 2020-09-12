@@ -137,6 +137,7 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
 
   // Create an instance of a Discord client
   const client = new Discord.Client();
+  console.log(client.user);
 
   client.on('ready', () => {
     console.log(translation.ready);
@@ -172,7 +173,7 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
 
     if (message.content.startsWith(translation.adopt_me)) {
       if (robot_creator == null){
-        robot_creator = message.author.id
+        robot_creator = message.author.id;
         await robot_memory.insertOne({ _id: 'my_creator', creator_id: robot_creator })
         message.channel.send(format(translation.just_adopted, robot_creator));
       }else{
@@ -195,13 +196,13 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
         message.channel.send(translation.forgiven_creator_offences);
       }
       const preamble_frag3 = " <@!";
-      const preamble_source = translation.preamble_frag1+translation.preamble_frag2+preamble_frag3;
+      const preamble_source = translation.forgive_cmd+translation.the+preamble_frag3;
       const preamble = new RegExp(preamble_source)
       const postamble_source = ">";
       const re = new RegExp(preamble.source + /.*/.source + postamble_source);
       if (re.test(message.content)) {
         const user_to_forgive = message.content.match(new RegExp("(?<="+preamble_source+")(.*)(?="+postamble_source+")"))[0]
-        const gender_letter = message.content.match("(?<="+translation.preamble_frag1+")"+translation.preamble_frag2+"(?="+preamble_frag3+"((.*)(?="+postamble_source+")))")[0]
+        const gender_letter = message.content.match("(?<="+translation.forgive_cmd+")"+translation.the+"(?="+preamble_frag3+"((.*)(?="+postamble_source+")))")[0]
         await offence_records.deleteMany( { offending_user: user_to_forgive } )
         message.channel.send(format(translation.forgiven_offences, gender_letter, user_to_forgive));
       }

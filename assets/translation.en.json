@@ -15,8 +15,8 @@
     "forgive_me" : "!forgive me",
     "no_need_to_forgive": "You don't need to forgive yourself.",
     "forgiven_creator_offences": "Your offences were forgiven!",
-    "preamble_frag1": "!forgive",
-    "preamble_frag2": "",
+    "forgive_cmd": "!forgive",
+    "the": "",
     "forgiven_offences": "<@{1}> offences were forgiven!",
     "future_forgiveness": "Your offences will be forgiven 24h after each offence."
 }
