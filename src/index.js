@@ -137,7 +137,6 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
 
   // Create an instance of a Discord client
   const client = new Discord.Client();
-  console.log(client.user);
 
   client.on('ready', () => {
     console.log(translation.ready);
@@ -149,6 +148,7 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
     robot_creator = robot_creator_record['creator_id'];
   }
   client.on('message', async (message) => {
+    console.log(client.user);
     // Ignore messages that aren't from a guild
     // if (!message.guild) return;
 
