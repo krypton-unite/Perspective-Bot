@@ -148,6 +148,7 @@ mongo_client.connect_mongo_client(async (err, db_client) => {
     robot_creator = robot_creator_record['creator_id'];
   }
   client.on('message', async (message) => {
+    // Ignore messages that are from the Perpective bot itself
     if (message.author == client.user) return;
     // Ignore messages that aren't from a guild
     // if (!message.guild) return;
