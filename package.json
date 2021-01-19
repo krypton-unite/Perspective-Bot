@@ -1,6 +1,6 @@
 {
   "name": "perspective_bot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Discord bot that keeps track of user karma based on the language they use",
   "main": "src/index.js",
   "repository": {
