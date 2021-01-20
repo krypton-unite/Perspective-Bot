@@ -11,7 +11,7 @@
     "test": "mocha --require esm --timeout 5000",
     "test-coverage": "nyc mocha --require esm --report lcovonly -- -R spec",
     "codecov": "codecov --disable=gcov",
-    "prod:start": "node dist/app.bundle.js",
+    "prod:start": "pm2 start dist/app.bundle.js",
     "prod:build": "webpack --config webpack.prod.js",
     "dev:start": "webpack-dev-server --inline --hot",
     "dev:build": "webpack --config webpack.dev.js",
@@ -26,7 +26,8 @@
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "googleapis": "^48.0.0",
-    "mongodb": "^3.6.3"
+    "mongodb": "^3.6.3",
+    "pm2": "^4.5.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
