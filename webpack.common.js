@@ -2,6 +2,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+pkg_name = require('./package.json').name
 
 module.exports = {
   entry: {
@@ -17,7 +18,7 @@ module.exports = {
     })
   ],
   output: {
-    filename: '[name].bundle.js',
+    filename: pkg_name+'.js',
     path: path.resolve(__dirname, 'dist'),
   }
 };
