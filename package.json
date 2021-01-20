@@ -11,7 +11,7 @@
     "test": "mocha --require esm --timeout 5000",
     "test-coverage": "nyc mocha --require esm --report lcovonly -- -R spec",
     "codecov": "codecov --disable=gcov",
-    "prod:start": "node dist/$npm_package_name.js",
+    "prod:start": "pm2-runtime start ecosystem.config.js --env production",
     "prod:build": "webpack --config webpack.prod.js",
     "dev:start": "webpack-dev-server --inline --hot",
     "dev:build": "webpack --config webpack.dev.js",
